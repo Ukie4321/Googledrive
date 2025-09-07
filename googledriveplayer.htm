@@ -7,11 +7,33 @@
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 <title>MRZYB Player Universal</title>
+<style>
+.tabs .tab a:focus,.tabs .tab a:focus.active{background:none}
+.col img{width:100%;border-radius:5px;margin-bottom:5px}
+.bg-fondo{display:flex;align-items:flex-end;padding:10px;padding-top:150px;position:relative;background:rgba(0,0,0,.7)}
+.bg-fondo h4{font-weight:500}
+.bg-fondo::before{content:'';position:absolute;top:0;left:0;width:100%;height:100%;background:url(https://image.tmdb.org/t/p/original/8yPSYhooj8nyBbmV3GVdLDwuE7e.jpg) no-repeat center center / cover;z-index:-1;opacity:.8}
+.modal{margin:50px auto}
+.iframe-container{position:relative;overflow:hidden;width:100%;padding-top:36.25%}
+.responsive-iframe{position:absolute;top:0;left:0;bottom:0;right:0;width:100%;height:100%}
+
+/* Glow & Pulse Effect */
+.play-btn {
+  box-shadow: 0 0 15px rgba(20,42,197,0.8);
+  animation: pulse 1.5s infinite;
+}
+@keyframes pulse {
+  0% { transform: scale(1); box-shadow: 0 0 10px rgba(20,42,197,0.6); }
+  50% { transform: scale(1.15); box-shadow: 0 0 25px rgba(20,42,197,1); }
+  100% { transform: scale(1); box-shadow: 0 0 10px rgba(20,42,197,0.6); }
+}
+</style>
 </head>
 <body class="grey darken-4" style="background-color: #000 !important;">
 
-<div class="fixed-action-btn">
-  <a href="#modal2" class="btn-floating btn-large green darken-2 modal-trigger" style="background-color: #142ac5 !important;">
+<!-- Tombol Play di atas poster dengan efek glow -->
+<div style="position:absolute; top:20px; right:20px; z-index:1000;">
+  <a href="#modal2" class="btn-floating btn-large blue modal-trigger play-btn" style="background-color:#142ac5 !important;">
     <i class="large material-icons">play_arrow</i>
   </a>
 </div>
@@ -62,14 +84,12 @@
 <script>
 M.AutoInit();
 
-// fungsi load data film
 function loadMovie(data){
   if(data.title) document.getElementById("title").innerText = data.title;
   if(data.poster) document.getElementById("poster").src = data.poster;
   if(data.video) document.getElementById("video-frame").src = data.video;
 }
 
-// cek ?data=BASE64
 window.addEventListener("DOMContentLoaded", () => {
   const params = new URLSearchParams(window.location.search);
   const encoded = params.get("data");
@@ -82,7 +102,6 @@ window.addEventListener("DOMContentLoaded", () => {
       console.error("Link tidak valid!");
     }
   } else {
-    // default film
     loadMovie({
       title: "Romper el círculo - (2024)",
       poster: "https://image.tmdb.org/t/p/w500/2EH42blLQzgqwDWxn39RXkTgb91.jpg",
@@ -91,7 +110,6 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-// generator
 function makeShareLink() {
   const title = document.getElementById("inputTitle").value.trim();
   const poster = document.getElementById("inputPoster").value.trim();
@@ -107,7 +125,6 @@ function makeShareLink() {
     const encoded = btoa(JSON.stringify(data));
     const finalUrl = window.location.origin + window.location.pathname + "?data=" + encoded;
 
-    // update player sekarang juga
     loadMovie(data);
 
     document.getElementById("shareResult").innerHTML = `
@@ -119,15 +136,6 @@ function makeShareLink() {
   }
 }
 </script>
-
-<style>
-.tabs .tab a:focus,.tabs .tab a:focus.active{background:none}
-.col img{width:100%;border-radius:5px;margin-bottom:5px}
-.bg-fondo{display:flex;align-items:flex-end;padding:10px;padding-top:150px;position:relative;background:rgba(0,0,0,.7)}
-.bg-fondo h4{font-weight:500}
-.bg-fondo::before{content:'';position:absolute;top:0;left:0;width:100%;height:100%;background:url(https://image.tmdb.org/t/p/original/8yPSYhooj8nyBbmV3GVdLDwuE7e.jpg) no-repeat center center / cover;z-index:-1;opacity:.8}
-.modal{margin:50px auto}.iframe-container{position:relative;overflow:hidden;width:100%;padding-top:36.25%}.responsive-iframe{position:absolute;top:0;left:0;bottom:0;right:0;width:100%;height:100%}
-</style>
 
 </body>
 </html>
