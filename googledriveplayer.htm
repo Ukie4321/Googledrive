@@ -12,7 +12,7 @@
 .col img{width:100%;border-radius:5px;margin-bottom:5px}
 .bg-fondo{display:flex;align-items:flex-end;padding:10px;padding-top:150px;position:relative;background:rgba(0,0,0,.7)}
 .bg-fondo h4{font-weight:500}
-.bg-fondo::before{content:'';position:absolute;top:0;left:0;width:100%;height:100%;background:url(https://image.tmdb.org/t/p/original/8yPSYhooj8nyBbmV3GVdLDwuE7e.jpg) no-repeat center center / cover;z-index:-1;opacity:.8}
+.bg-fondo::before{content:'';position:absolute;top:0;left:0;width:100%;height:100%;background:url(https://i.pinimg.com/736x/7b/cb/95/7bcb9529cd6f5c4f12bb7d50a341abdb.jpg) no-repeat center center / cover;z-index:-1;opacity:.8}
 .modal{margin:50px auto}
 .iframe-container{position:relative;overflow:hidden;width:100%;padding-top:36.25%}
 .responsive-iframe{position:absolute;top:0;left:0;bottom:0;right:0;width:100%;height:100%}
@@ -94,51 +94,6 @@ window.addEventListener("DOMContentLoaded", () => {
   const params = new URLSearchParams(window.location.search);
   const encoded = params.get("data");
   if(encoded){
-    try {
-      const decoded = atob(encoded);
-      const obj = JSON.parse(decoded);
-      loadMovie(obj);
-    } catch(e) {
-      console.error("Link tidak valid!");
-    }
-  } else {
-    loadMovie({
-      title: "Romper el círculo - (2024)",
-      poster: "https://image.tmdb.org/t/p/w500/2EH42blLQzgqwDWxn39RXkTgb91.jpg",
-      video: "https://drive.google.com/file/d/14GiJ9cw_uK17h5hapoea9gZt-D6tqhkz/preview"
-    });
-  }
-});
-
-function makeShareLink() {
-  const title = document.getElementById("inputTitle").value.trim();
-  const poster = document.getElementById("inputPoster").value.trim();
-  const video = document.getElementById("inputLink").value.trim();
-
-  if(!video){
-    document.getElementById("shareResult").innerHTML = "<p class='red-text'>⚠️ Masukkan link video!</p>";
-    return;
-  }
-
-  try {
-    const data = { title, poster, video };
-    const encoded = btoa(JSON.stringify(data));
-    const finalUrl = window.location.origin + window.location.pathname + "?data=" + encoded;
-
-    loadMovie(data);
-
-    document.getElementById("shareResult").innerHTML = `
-      <p>✅ Link siap copy:</p>
-      <input type="text" value="${finalUrl}" readonly style="background:#111;color:#0f0;padding:8px;width:100%;border:none;border-radius:5px;" onclick="this.select()">
-    `;
-  } catch(e){
-    document.getElementById("shareResult").innerHTML = "<p class='red-text'>⚠️ Data tidak valid!</p>";
-  }
-}
-</script>
-
-</body>
-</html>
     try {
       const decoded = atob(encoded);
       const obj = JSON.parse(decoded);
