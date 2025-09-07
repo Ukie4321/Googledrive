@@ -48,8 +48,8 @@
 </div>
 
 <div class="container white-text">
-  <h5>SINOPSIS</h5>
-  <p class="flow-text grey-text">Gunakan generator di bawah untuk membuat link film dengan judul, poster, dan link video berbeda-beda.</p>
+  <h5></h5>
+  <p class="flow-text grey-text"></p>
 </div>
 
 <!-- PLAYER -->
@@ -60,13 +60,13 @@
     </div>
   </div>
   <div class="modal-footer grey darken-4">
-    <a href="#!" class="modal-close waves-effect waves-green btn-flat white-text">Cerrar video</a>
+    <a href="#!" class="modal-close waves-effect waves-green btn-flat white-text">EXIT</a>
   </div>
 </div>
 
 <!-- GENERATOR -->
 <div class="container white-text" style="margin-top:30px;">
-  <h5>🔗 Generator Link</h5>
+  <h5>🔗 Generator MRZYB-PLAYER</h5>
   <p class="grey-text">Masukkan <b>judul</b>, <b>poster</b>, dan <b>link Google Drive Preview</b>.</p>
 
   <input type="text" id="inputTitle" class="white-text" placeholder="Judul Film" style="background:#222;padding:10px;border-radius:5px;width:100%;margin-bottom:10px;">
@@ -94,6 +94,51 @@ window.addEventListener("DOMContentLoaded", () => {
   const params = new URLSearchParams(window.location.search);
   const encoded = params.get("data");
   if(encoded){
+    try {
+      const decoded = atob(encoded);
+      const obj = JSON.parse(decoded);
+      loadMovie(obj);
+    } catch(e) {
+      console.error("Link tidak valid!");
+    }
+  } else {
+    loadMovie({
+      title: "Romper el círculo - (2024)",
+      poster: "https://image.tmdb.org/t/p/w500/2EH42blLQzgqwDWxn39RXkTgb91.jpg",
+      video: "https://drive.google.com/file/d/14GiJ9cw_uK17h5hapoea9gZt-D6tqhkz/preview"
+    });
+  }
+});
+
+function makeShareLink() {
+  const title = document.getElementById("inputTitle").value.trim();
+  const poster = document.getElementById("inputPoster").value.trim();
+  const video = document.getElementById("inputLink").value.trim();
+
+  if(!video){
+    document.getElementById("shareResult").innerHTML = "<p class='red-text'>⚠️ Masukkan link video!</p>";
+    return;
+  }
+
+  try {
+    const data = { title, poster, video };
+    const encoded = btoa(JSON.stringify(data));
+    const finalUrl = window.location.origin + window.location.pathname + "?data=" + encoded;
+
+    loadMovie(data);
+
+    document.getElementById("shareResult").innerHTML = `
+      <p>✅ Link siap copy:</p>
+      <input type="text" value="${finalUrl}" readonly style="background:#111;color:#0f0;padding:8px;width:100%;border:none;border-radius:5px;" onclick="this.select()">
+    `;
+  } catch(e){
+    document.getElementById("shareResult").innerHTML = "<p class='red-text'>⚠️ Data tidak valid!</p>";
+  }
+}
+</script>
+
+</body>
+</html>
     try {
       const decoded = atob(encoded);
       const obj = JSON.parse(decoded);
