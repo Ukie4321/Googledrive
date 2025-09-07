@@ -1,147 +1,136 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MRZYB PLAYER</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
-<!-- Video.js -->
-<link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
-<script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
-<style>
-  body { font-family: Arial, sans-serif; background: #111; color: #fff; text-align: center; margin:0; padding:20px;}
-  .container { max-width: 800px; margin:auto; }
-
-  h1 {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 28px;
-    color: white;
-    text-shadow: 0 0 8px #00a2ff, 0 0 16px #7f00ff;
-    animation: glow 2s infinite alternate;
-    margin-bottom: 10px;
-  }
-  @keyframes glow {
-    from { text-shadow: 0 0 8px #00a2ff, 0 0 16px #7f00ff; }
-    to   { text-shadow: 0 0 15px #00f7ff, 0 0 30px #9a00ff; }
-  }
-
-  .logo img { width:120px; border-radius:15px; margin:10px 0; }
-
-  .telegram-link a {
-    color:#00a2ff; text-decoration:none; font-weight:bold;
-  }
-  .telegram-link a:hover { text-decoration:underline; }
-
-  input, button { padding:10px; margin:5px; border-radius:5px; border:none; }
-  input { width:70%; }
-  button { background:#0a84ff; color:#fff; cursor:pointer; }
-  button:hover { background:#0066cc; }
-
-  .video-js.vjs-mrzyb {
-    width:100%;
-    max-height:500px;
-    margin-top:20px;
-    border-radius:15px;
-    background:#000;
-    border:3px solid #00a2ff;
-    box-shadow:0 0 15px #00a2ff, 0 0 30px #00a2ff;
-  }
-
-  .output { margin-top:15px; }
-</style>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+<title>MRZYB Player + Base64</title>
 </head>
-<body>
-<div class="container">
+<body class="grey darken-4" style="background-color: #000 !important;">
 
-  <h1>MRZYB-PLAYER</h1>
-
-  <div class="logo">
-    <img src="https://api.pcloud.com/getpubthumb?code=XZ0uuD5ZzfDh2YV37h7eG7CCkCG8O5CRjG4k&linkpassword=&size=512x542&crop=0&type=auto" alt="MRZYB Logo">
-  </div>
-
-  <div class="telegram-link">
-    <a href="https://t.me/mrzyb_movie" target="_blank">Join Telegram @mrzyb_movie</a>
-  </div>
-
-  <p>Tempel link video (GitHub MP4 / Google Drive):</p>
-  <input type="text" id="videoLink" placeholder="Paste link di sini">
-  <button onclick="generateVideo()">Tonton</button>
-
-  <div class="output" id="result"></div>
-
-  <video
-    id="player"
-    class="video-js vjs-big-play-centered vjs-mrzyb"
-    controls
-    preload="auto"
-    playsinline
-    data-setup='{}'
-  ></video>
+<div class="fixed-action-btn">
+  <a href="#modal1" class="btn-floating btn-large green darken-2 modal-trigger trailer" style="background-color: #142ac5 !important;">
+    <i class="large material-icons">subscriptions</i>
+  </a>
+  <a href="#modal2" class="btn-floating btn-large green darken-2 modal-trigger" style="background-color: #142ac5 !important;">
+    <i class="large material-icons">play_arrow</i>
+  </a>
 </div>
 
+<div class="row bg-fondo">
+  <div class="col s3 m4 l2">
+    <img src="https://image.tmdb.org/t/p/w500/2EH42blLQzgqwDWxn39RXkTgb91.jpg" alt="poster">
+  </div>
+  <div class="col s9 m8 l10">
+    <h4 class="white-text">Romper el círculo - (2024)</h4>
+  </div>
+</div>
+
+<div class="container white-text">
+  <h5>SINOPSIS</h5>
+  <p class="flow-text grey-text">Una mujer atraviesa las tumultuosas etapas de una relación abusiva. Tras mudarse a la ciudad de Boston después de la universidad, decide iniciar su propio negocio como florista y se enamora de un joven neurocirujano.</p>
+</div>
+
+<!-- TRAILER -->
+<div id="modal1" class="modal grey darken-4">
+  <div class="modal-content white-text">
+    <div class="iframe-container">
+      <iframe class="responsive-iframe" id="trailer-frame" width="100%" height="100%" scrolling="no" style="border-radius:5px;" frameborder="0" allowfullscreen></iframe>
+    </div>
+  </div>
+  <div class="modal-footer grey darken-4">
+    <a href="#!" class="modal-close waves-effect waves-green btn-flat white-text">Cerrar trailer</a>
+  </div>
+</div>
+
+<!-- PLAYER -->
+<div id="modal2" class="modal grey darken-4">
+  <div class="modal-content white-text">
+    <div class="iframe-container">
+      <iframe class="responsive-iframe" id="video-frame" width="100%" height="100%" scrolling="no" style="border-radius:5px;" frameborder="0" allowfullscreen></iframe>
+    </div>
+  </div>
+  <div class="modal-footer grey darken-4">
+    <a href="#!" class="modal-close waves-effect waves-green btn-flat white-text">Cerrar video</a>
+  </div>
+</div>
+
+<!-- GENERATOR -->
+<div class="container white-text" style="margin-top:30px;">
+  <h5>🔗 Generator Link</h5>
+  <p class="grey-text">Tempel link <b>Google Drive Preview</b> di bawah lalu klik "Buat Link".</p>
+  <input type="text" id="inputLink" class="white-text" placeholder="https://drive.google.com/file/d/ID/preview" style="background:#222;padding:10px;border-radius:5px;width:100%;">
+  <button class="btn blue" style="margin-top:10px;" onclick="makeShareLink()">Buat Link</button>
+  <div id="shareResult" style="margin-top:15px;"></div>
+</div>
+
+<!-- Scripts -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 <script>
-function extractDriveId(url) {
-  try {
-    const u = new URL(url);
-    if (/drive\.google\.com$/.test(u.hostname)) {
-      const m1 = u.pathname.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
-      if (m1) return m1[1];
-      const idParam = u.searchParams.get('id');
-      if (idParam) return idParam;
-      const m2 = u.pathname.match(/\/d\/([a-zA-Z0-9_-]+)/);
-      if (m2) return m2[1];
-    }
-  } catch(e) {}
-  return null;
+M.AutoInit();
+
+function loadVideo(url, targetId) {
+  document.getElementById(targetId).src = url;
 }
 
-function toDrivePreviewUrl(fileId) {
-  return `https://drive.google.com/file/d/${fileId}/preview`;
-}
-
-function generateVideo(){
-  const link = document.getElementById("videoLink").value.trim();
-  if(!link) return;
-
-  let finalSrc = link;
-  const id = extractDriveId(link);
-  if (id) finalSrc = toDrivePreviewUrl(id);
-
-  const vjsPlayer = videojs('player');
-  vjsPlayer.src({src: finalSrc, type: 'video/mp4'});
-  vjsPlayer.ready(()=>{
-    vjsPlayer.play().catch(()=>{});
-  });
-
-  const encoded = btoa(link);
-  const shareUrl = window.location.origin + window.location.pathname + "?video=" + encoded;
-  document.getElementById("result").innerHTML = `
-    <p>Link share (siap copy):</p>
-    <input type="text" value="${shareUrl}" readonly onclick="this.select()">
-    ${id ? '<div style="font-size:13px;opacity:.8">Sumber: Google Drive (preview)</div>' : '<div style="font-size:13px;opacity:.8">Sumber: Direct MP4</div>'}
-  `;
-}
-
-window.onload = function(){
+// cek ?video=BASE64
+window.addEventListener("DOMContentLoaded", () => {
   const params = new URLSearchParams(window.location.search);
   const encoded = params.get("video");
-  if(encoded){
-    try{
-      const url = atob(encoded);
-      document.getElementById("videoLink").value = url;
-      let finalSrc = url;
-      const id = extractDriveId(url);
-      if (id) finalSrc = toDrivePreviewUrl(id);
-      const vjsPlayer = videojs('player');
-      vjsPlayer.src({src: finalSrc, type: 'video/mp4'});
-      vjsPlayer.ready(()=>{
-        vjsPlayer.play().catch(()=>{});
-      });
-    } catch(e){
-      document.getElementById("result").innerHTML = "<p>Link video tidak valid!</p>";
+  if (encoded) {
+    try {
+      const original = atob(encoded);
+      document.getElementById("video-frame").src = original;
+    } catch(e) {
+      console.error("Video link invalid!");
     }
+  } else {
+    // default link kalau tidak ada ?video=
+    document.getElementById("trailer-frame").src = "https://drive.google.com/file/d/1-Syt8ol4HWVEG-hRTPEDzoZa_uN3Guz9/preview";
+    document.getElementById("video-frame").src   = "https://drive.google.com/file/d/14GiJ9cw_uK17h5hapoea9gZt-D6tqhkz/preview";
   }
-};
+});
+
+function makeShareLink() {
+  const link = document.getElementById("inputLink").value.trim();
+  if(!link) {
+    document.getElementById("shareResult").innerHTML = "<p class='red-text'>⚠️ Masukkan link dulu!</p>";
+    return;
+  }
+  try {
+    const encoded = btoa(link);
+    const finalUrl = window.location.origin + window.location.pathname + "?video=" + encoded;
+    document.getElementById("shareResult").innerHTML = `
+      <p>✅ Link siap copy:</p>
+      <input type="text" value="${finalUrl}" readonly style="background:#111;color:#0f0;padding:8px;width:100%;border:none;border-radius:5px;" onclick="this.select()">
+    `;
+    // langsung update player
+    document.getElementById("video-frame").src = link;
+  } catch(e) {
+    document.getElementById("shareResult").innerHTML = "<p class='red-text'>⚠️ Link tidak valid!</p>";
+  }
+}
 </script>
+
+<style>
+.tabs .tab a:focus,.tabs .tab a:focus.active{background:none}
+.col img{width:100%;border-radius:5px;margin-bottom:5px}
+.padDrew{padding:10px 0;margin:50px 0}
+.sidenav li{transition:background ease .2s}
+.row .col{padding:0 5px}
+.each-category{padding:0 5px}
+.sidenav li>a{margin:0 10px;background:#212121;color:rgb(222,215,215);border-radius:3px;display:flex;align-items:center;gap:10px;padding:0 10px}
+#nav-mobile a.active-sidenav,.sidenav li>a.active-sidenav{background:rgba(60,128,85,.2);color:#20bf6b}
+#nav-mobile a{font-weight:600}.buscador{float:right;margin:0 18px;z-index:1}
+@media screen and (min-width:991px){nav .brand-logo{margin:0 10px}}
+@media only screen and (max-width:992px){nav .brand-logo{left:120px}}
+.tab a,.sidenav li a{font-weight:600}img.circle{border-radius:100%;overflow:hidden}
+.banner{display:flex;gap:10px;padding:10px;background:rgb(20,20,20)}
+.sidenav li{line-height:0}.bg-fondo{display:flex;align-items:flex-end;padding:10px;padding-top:150px;position:relative;background:rgba(0,0,0,.7)}.bg-fondo h4{font-weight:500}.bg-fondo::before{content:'';position:absolute;top:0;left:0;width:100%;height:100%;background:url(https://image.tmdb.org/t/p/original/8yPSYhooj8nyBbmV3GVdLDwuE7e.jpg) no-repeat center center / cover;z-index:-1;opacity:.8}
+.collection{border:none;border-radius:0;margin:0}.collection .collection-item{border-bottom:2px solid rgba(17,17,17,.4)}.modal{margin:50px auto}.iframe-container{position:relative;overflow:hidden;width:100%;padding-top:36.25%}.responsive-iframe{position:absolute;top:0;left:0;bottom:0;right:0;width:100%;height:100%}a.trailer {left: 20px;position: fixed;}
+</style>
+
 </body>
 </html>
